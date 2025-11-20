@@ -1,10 +1,10 @@
-// src/pages/Login.jsx
+// src/pages/Signup.jsx
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
-export default function Login() {
-    const { login } = useAuth();
+export default function Signup() {
+    const { signup } = useAuth();
     const nav = useNavigate();
 
     const [email, setEmail] = useState("");
@@ -16,12 +16,12 @@ export default function Login() {
         setState({ loading: true, error: "" });
 
         try {
-            await login(email, password);
+            await signup(email, password);
             nav("/profile", { replace: true });
         } catch (err) {
             setState({
                 loading: false,
-                error: err.message || "Login failed",
+                error: err.message || "Signup failed",
             });
             return;
         }
@@ -31,7 +31,7 @@ export default function Login() {
 
     return (
         <section>
-            <h1>Login</h1>
+            <h1>Sign up</h1>
             <form onSubmit={handleSubmit} style={{ maxWidth: 420 }}>
                 <input
                     type="email"
@@ -43,14 +43,14 @@ export default function Login() {
 
                 <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Password (min 6 chars)"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     required
                 />
 
                 <button type="submit" disabled={state.loading}>
-                    {state.loading ? "Loading..." : "Login"}
+                    {state.loading ? "Loading..." : "Create account"}
                 </button>
 
                 {state.error && (
@@ -59,7 +59,7 @@ export default function Login() {
             </form>
 
             <p style={{ marginTop: 12 }}>
-                Don&apos;t have an account? <Link to="/signup">Sign up</Link>
+                Already have an account? <Link to="/login">Login</Link>
             </p>
         </section>
     );
