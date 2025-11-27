@@ -1,4 +1,4 @@
-// src/pages/Profile.jsx
+
 import { useAuth } from "../auth/AuthContext";
 
 export default function Profile() {

@@ -1,4 +1,4 @@
-// src/auth/AuthContext.jsx
+
 import { createContext, useContext, useEffect, useState } from "react";
 import {
     onAuthStateChanged,
@@ -11,7 +11,7 @@ import { auth } from "../firebase";
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState(null);       // текущий пользователь или null
+    const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true); // пока ждём Firebase
 
     useEffect(() => {

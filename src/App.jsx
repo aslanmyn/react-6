@@ -1,4 +1,4 @@
-// src/App.jsx
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import RootLayout from "./layouts/RootLayout";
 import Home from "./pages/Home";
@@ -14,7 +14,7 @@ export default function App() {
     return (
         <BrowserRouter>
             <Routes>
-                {/* RootLayout как layout с <Outlet /> */}
+                {}
                 <Route path="/" element={<RootLayout />}>
                     {/* главная */}
                     <Route index element={<Home />} />

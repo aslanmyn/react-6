@@ -1,56 +1,67 @@
-import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
-import { searchItems } from '../services/itemsService'
-import Spinner from '../components/Spinner'
-import ErrorBox from '../components/ErrorBox'
-import List from '../components/List'
+
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useSearchParams } from "react-router-dom";
+import { fetchItems } from "../features/items/itemsSlice";
+import Spinner from "../components/Spinner";
+import List from "../components/List";
 
 export default function ItemsList() {
-    const [searchParams, setSearchParams] = useSearchParams()
-    const q = searchParams.get('q') || ''
-    const [items, setItems] = useState([])
-    const [status, setStatus] = useState('idle')
-    const [error, setError] = useState('')
+    const dispatch = useDispatch();
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const query = searchParams.get("q") || "";
+
+    const { list, loadingList, errorList } = useSelector((state) => state.items);
+
 
     useEffect(() => {
-        let ignore = false
-        ;(async () => {
-            try {
-                setStatus('loading')
-                const res = await searchItems(q)
-                if (!ignore) {
-                    setItems(res)
-                    setStatus('idle')
-                }
-            } catch (e) {
-                if (!ignore) {
-                    setError(e.message)
-                    setStatus('error')
-                }
-            }
-        })()
-        return () => { ignore = true }
-    }, [q])
+        dispatch(fetchItems(query));
+    }, [dispatch, query]);
 
-    function onChange(e) {
-        const val = e.target.value
-        if (val) setSearchParams({ q: val })
-        else setSearchParams({})
-    }
+    const handleSearchChange = (e) => {
+        const value = e.target.value;
+        const params = {};
+        if (value) params.q = value;
+        setSearchParams(params, { replace: true });
+    };
 
     return (
-        <section>
-            <h1>Items</h1>
-            <input
-                type="search"
-                placeholder="Search..."
-                value={q}
-                onChange={onChange}
-                aria-label="Search items"
-            />
-            {status === 'loading' && <Spinner />}
-            {status === 'error' && <ErrorBox message={error} />}
-            {status === 'idle' && <List items={items} />}
+        <section className="page">
+            <h1 className="page-title">Items</h1>
+
+            <div className="items-search">
+                <input
+                    type="text"
+                    className="field-input"
+                    placeholder="Search..."
+                    value={query}
+                    onChange={handleSearchChange}
+                />
+            </div>
+
+            {loadingList && (
+                <div className="items-state">
+                    <Spinner />
+                </div>
+            )}
+
+            {errorList && !loadingList && (
+                <div className="items-state error">
+                    <p>Failed to load items: {errorList}</p>
+                </div>
+            )}
+
+            {!loadingList && !errorList && list.length === 0 && (
+                <div className="items-state">
+                    <p>No items found.</p>
+                </div>
+            )}
+
+            {!loadingList && !errorList && list.length > 0 && (
+
+                <List items={list} />
+            )}
         </section>
-    )
+    );
 }
