@@ -13,25 +13,27 @@ import ProtectedRoute from "./auth/ProtectedRoute";
 export default function App() {
     return (
         <BrowserRouter>
-            <RootLayout>
-                <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/about" element={<About />} />
-                    <Route path="/items" element={<ItemsList />} />
-                    <Route path="/items/:id" element={<ItemDetails />} />
+            <Routes>
+                {/* RootLayout как layout с <Outlet /> */}
+                <Route path="/" element={<RootLayout />}>
+                    {/* главная */}
+                    <Route index element={<Home />} />
 
-                    <Route path="/login" element={<Login />} />
-                    <Route path="/signup" element={<Signup />} />
+                    {/* обычные страницы */}
+                    <Route path="about" element={<About />} />
+                    <Route path="items" element={<ItemsList />} />
+                    <Route path="items/:id" element={<ItemDetails />} />
 
-                    {/* защищённый сегмент: только для залогиненного пользователя */}
+                    {/* auth */}
+                    <Route path="login" element={<Login />} />
+                    <Route path="signup" element={<Signup />} />
+
+                    {/* защищённый роут */}
                     <Route element={<ProtectedRoute />}>
-                        <Route path="/profile" element={<Profile />} />
+                        <Route path="profile" element={<Profile />} />
                     </Route>
-
-                    {/* опционально 404 */}
-                    {/* <Route path="*" element={<p>Page not found</p>} /> */}
-                </Routes>
-            </RootLayout>
+                </Route>
+            </Routes>
         </BrowserRouter>
     );
 }

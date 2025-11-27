@@ -3,7 +3,8 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../auth/AuthContext";
 
 export default function NavBar() {
-    const linkClass = ({ isActive }) => (isActive ? "active" : undefined);
+    const linkClass = ({ isActive }) =>
+        isActive ? "nav-link nav-link--active" : "nav-link";
     const { user, logout } = useAuth();
     const nav = useNavigate();
 
@@ -17,58 +18,50 @@ export default function NavBar() {
     }
 
     return (
-        <nav className="nav">
-            <Link to="/" className="brand">
-                My Catalog
-            </Link>
+        <header className="nav">
+            <div className="nav-inner">
+                <Link to="/" className="nav-brand">
+                    My Catalog
+                </Link>
 
-            <ul>
-                <li>
+                <nav className="nav-links">
                     <NavLink to="/" className={linkClass} end>
                         Home
                     </NavLink>
-                </li>
-                <li>
                     <NavLink to="/about" className={linkClass}>
                         About
                     </NavLink>
-                </li>
-                <li>
                     <NavLink to="/items" className={linkClass}>
                         Items
                     </NavLink>
-                </li>
 
-                {!user && (
-                    <>
-                        <li>
+                    {!user && (
+                        <>
                             <NavLink to="/login" className={linkClass}>
                                 Login
                             </NavLink>
-                        </li>
-                        <li>
                             <NavLink to="/signup" className={linkClass}>
                                 Signup
                             </NavLink>
-                        </li>
-                    </>
-                )}
+                        </>
+                    )}
 
-                {user && (
-                    <>
-                        <li>
+                    {user && (
+                        <>
                             <NavLink to="/profile" className={linkClass}>
                                 Profile
                             </NavLink>
-                        </li>
-                        <li>
-                            <button type="button" onClick={handleLogout}>
+                            <button
+                                type="button"
+                                className="btn btn--ghost nav-logout"
+                                onClick={handleLogout}
+                            >
                                 Logout
                             </button>
-                        </li>
-                    </>
-                )}
-            </ul>
-        </nav>
+                        </>
+                    )}
+                </nav>
+            </div>
+        </header>
     );
 }

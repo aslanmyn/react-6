@@ -3,23 +3,25 @@ import { useAuth } from "../auth/AuthContext";
 
 export default function Profile() {
     const { user } = useAuth();
+    if (!user) return null;
 
     return (
-        <section>
-            <h1>Profile</h1>
+        <section className="page page--centered">
+            <div className="card profile-wide">
+                <h1 className="profile-title">Profile</h1>
 
-            {!user && <p>No user data.</p>}
+                <div className="profile-info">
+                    <div className="row">
+                        <span className="label">Email</span>
+                        <span className="value">{user.email}</span>
+                    </div>
 
-            {user && (
-                <ul>
-                    <li>
-                        <strong>Email:</strong> {user.email}
-                    </li>
-                    <li>
-                        <strong>UID:</strong> {user.uid}
-                    </li>
-                </ul>
-            )}
+                    <div className="row">
+                        <span className="label">UID</span>
+                        <span className="uid-box">{user.uid}</span>
+                    </div>
+                </div>
+            </div>
         </section>
     );
 }

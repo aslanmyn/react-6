@@ -30,37 +30,58 @@ export default function Login() {
     }
 
     return (
-        <section>
-            <h1>Login</h1>
-            <form onSubmit={handleSubmit} style={{ maxWidth: 420 }}>
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    required
-                />
+        <section className="page page--centered">
+            <div className="card auth-card">
+                <h1 className="page-title">Login</h1>
+                <p className="page-subtitle">
+                    Enter your credentials to access your profile.
+                </p>
 
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                />
+                <form className="form" onSubmit={handleSubmit}>
+                    <label className="field">
+                        <span className="field-label">Email</span>
+                        <input
+                            type="email"
+                            className="field-input"
+                            placeholder="you@example.com"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            required
+                        />
+                    </label>
 
-                <button type="submit" disabled={state.loading}>
-                    {state.loading ? "Loading..." : "Login"}
-                </button>
+                    <label className="field">
+                        <span className="field-label">Password</span>
+                        <input
+                            type="password"
+                            className="field-input"
+                            placeholder="••••••••"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                        />
+                    </label>
 
-                {state.error && (
-                    <p style={{ color: "#c62828", marginTop: 8 }}>{state.error}</p>
-                )}
-            </form>
+                    {state.error && (
+                        <p className="form-error">{state.error}</p>
+                    )}
 
-            <p style={{ marginTop: 12 }}>
-                Don&apos;t have an account? <Link to="/signup">Sign up</Link>
-            </p>
+                    <button
+                        type="submit"
+                        className="btn btn--primary btn--full"
+                        disabled={state.loading}
+                    >
+                        {state.loading ? "Logging in…" : "Login"}
+                    </button>
+                </form>
+
+                <p className="auth-footer">
+                    Don&apos;t have an account?{" "}
+                    <Link to="/signup" className="link">
+                        Sign up
+                    </Link>
+                </p>
+            </div>
         </section>
     );
 }
