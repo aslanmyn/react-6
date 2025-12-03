@@ -16,19 +16,12 @@ export default function App() {
             <Routes>
                 {}
                 <Route path="/" element={<RootLayout />}>
-                    {/* главная */}
                     <Route index element={<Home />} />
-
-                    {/* обычные страницы */}
                     <Route path="about" element={<About />} />
                     <Route path="items" element={<ItemsList />} />
                     <Route path="items/:id" element={<ItemDetails />} />
-
-                    {/* auth */}
                     <Route path="login" element={<Login />} />
                     <Route path="signup" element={<Signup />} />
-
-                    {/* защищённый роут */}
                     <Route element={<ProtectedRoute />}>
                         <Route path="profile" element={<Profile />} />
                     </Route>
